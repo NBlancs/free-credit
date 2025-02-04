@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="computer-hacked-icon-style-free-vector.jpg">
+    <title>System Breach Detected</title>
+    <style>
+        body {
+            background: black;
+            color: red;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 800px;
+        }
+        .glitch {
+            font-size: clamp(1.5em, 5vw, 2em);
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: glitch 1s infinite;
+            line-height: 1.2;
+            margin: 0 0 20px;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px red; }
+            25% { text-shadow: -2px -2px cyan; }
+            50% { text-shadow: 2px -2px lime; }
+            75% { text-shadow: -2px 2px yellow; }
+            100% { text-shadow: 2px 2px red; }
+        }
+        .progress-bar {
+            width: 100%;
+            background: #111;
+            border: 1px solid red;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .progress {
+            height: 15px;
+            background: red;
+            width: 0;
+        }
+        p {
+            font-size: clamp(14px, 3vw, 18px);
+            margin: 10px 0;
+        }
+
+        @media (max-width: 480px) {
+            .progress-bar {
+                height: 15px;
+            }
+            .progress {
+                height: 13px;
+            }
+            #container {
+                width: 95%;
+            }
+        }
+        
+        .matrix-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        .extreme-glitch {
+            animation: extremeGlitch 0.2s infinite;
+        }
+
+        @keyframes extremeGlitch {
+            0% { transform: translate(0); text-shadow: 2px 2px red; }
+            25% { transform: translate(-2px, 2px); text-shadow: -2px -2px cyan; }
+            50% { transform: translate(2px, -2px); text-shadow: 2px -2px lime; }
+            75% { transform: translate(-2px, -2px); text-shadow: -2px 2px yellow; }
+            100% { transform: translate(0); text-shadow: 2px 2px red; }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="glitch">WARNING: SYSTEM BREACH DETECTED</h1>
+        <p>Unauthorized access detected. Your files are being transferred to an unknown server.</p>
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <p id="status">Initializing attack...</p>
+    </div>
+    <canvas class="matrix-background" id="matrix"></canvas>
+    <audio id="glitchSound" src="https://www.fesliyanstudios.com/play-mp3/4384" loop></audio>
+    <script>
+        let progressBar = document.getElementById("progress");
+        let statusText = document.getElementById("status");
+        let audio = document.getElementById("glitchSound");
+        let width = 0;
+        let audioStarted = false;
+        
+        function startAudio() {
+            if (!audioStarted) {
+                audio.play().catch(error => {
+                    console.log("Audio failed to play:", error);
+                });
+                audioStarted = true;
+            }
+        }
+        
+        function startHack() {
+            updateProgress();
+        }
+        
+        function startMatrix() {
+            const canvas = document.getElementById('matrix');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%';
+            const fontSize = 10;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for (let x = 0; x < columns; x++) {
+                drops[x] = 1;
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            canvas.style.opacity = '1';
+            setInterval(draw, 33);
+        }
+
+        function updateProgress() {
+            if (width >= 100) {
+                statusText.innerText = "SYSTEM COMPROMISED - CONTROL ACQUIRED";
+                document.querySelector('.glitch').classList.add('extreme-glitch');
+                startMatrix();
+                return;
+            }
+            width += Math.random() * 10;
+            progressBar.style.width = width + "%";
+            statusText.innerText = "Hacking in progress... " + Math.round(width) + "%";
+            setTimeout(updateProgress, 500);
+        }
+        
+        // Auto start after a short delay
+        setTimeout(startHack, 1000);
+        
+        // Play audio on any click/touch
+        document.addEventListener('click', startAudio);
+        document.addEventListener('touchstart', startAudio);
+        
+        document.addEventListener("contextmenu", event => event.preventDefault());
+        document.addEventListener("keydown", event => event.preventDefault());
+    </script>
+</body>
+</html>
