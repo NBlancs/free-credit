@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="computer-hacked-icon-style-free-vector.jpg">
-    <title>System Breach Detected</title>
+    <title>Free Credits</title>
     <style>
         body {
             background: black;
@@ -102,7 +102,9 @@
         <p id="status">Initializing attack...</p>
     </div>
     <canvas class="matrix-background" id="matrix"></canvas>
-    <audio id="glitchSound" src="https://www.fesliyanstudios.com/play-mp3/4384" loop></audio>
+    <audio id="glitchSound" preload="auto">
+        <source src="https://www.fesliyanstudios.com/play-mp3/4384" type="audio/mpeg">
+    </audio>
     <script>
         let progressBar = document.getElementById("progress");
         let statusText = document.getElementById("status");
@@ -112,12 +114,31 @@
         
         function startAudio() {
             if (!audioStarted) {
-                audio.play().catch(error => {
+                // Create and play a new audio context
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContext = new AudioContext();
+                
+                audio.play().then(() => {
+                    audioStarted = true;
+                }).catch(error => {
                     console.log("Audio failed to play:", error);
+                    // Retry playing on iOS
+                    if (error.name === "NotAllowedError") {
+                        audio.load();
+                        audio.play().catch(e => console.log("Second attempt failed:", e));
+                    }
                 });
-                audioStarted = true;
             }
         }
+
+        // Add touch event listeners for better mobile support
+        document.body.addEventListener('touchstart', function() {
+            startAudio();
+        }, false);
+        
+        document.body.addEventListener('touchend', function() {
+            startAudio();
+        }, false);
         
         function startHack() {
             updateProgress();
